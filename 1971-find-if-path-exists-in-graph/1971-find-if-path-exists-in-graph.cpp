@@ -1,32 +1,25 @@
 class Solution {
 public:
-    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
-        int u, v, len=edges.size(),curr,second;
-        vector<vector<int>> adj(n);
-        for(int i=0;i<len;i++){
-            u=edges[i][0];
-            v=edges[i][1];
-            adj[u].push_back(v);
-            adj[v].push_back(u);
-        }
-        queue<int> q;
-        vector<bool> seen(n,false);
-        q.push(source);
-        seen[source]=true;
-        while(!q.empty()){
-            curr=q.front();
-            for(int i=0;i<adj[curr].size();i++){
-                second=adj[curr][i];
-                if(!seen[second]){
-                    q.push(second);
-                    seen[second]=true;
-                }
-            }
-            q.pop();
-        }
-        if(seen[destination])
+    bool dfs(vector<vector<int>>& g, vector<int>& visited, int curr, int end){
+        if(curr==end)
             return true;
-        else
+        if(visited[curr])
             return false;
+        visited[curr]=1;
+        for(int i=0;i<g[curr].size();i++){
+            if(dfs(g, visited, g[curr][i], end)){
+                return true;
+            }
+        }
+        return false;
+    }
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+        vector<vector<int>> g(n);
+        for(int i=0;i<edges.size();i++){
+            g[edges[i][0]].push_back(edges[i][1]);
+            g[edges[i][1]].push_back(edges[i][0]);
+        }
+        vector<int> visited(n);
+        return dfs(g, visited, source, destination);
     }
 };
