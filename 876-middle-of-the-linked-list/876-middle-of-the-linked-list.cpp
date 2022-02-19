@@ -11,19 +11,16 @@
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        int count=0;
-        ListNode* head2=head;
-        ListNode* head3=head;
-        while(head2){
-            count++;
-            head2=head2->next;
+        stack<ListNode*> st;
+        ListNode* p=head;
+        while(p){
+            st.push(p);
+            p=p->next;
         }
-        cout<<count<<endl;
-        count=count/2;
-        while(count){
-            head3=head3->next;
-            count--;
+        p=head;
+        for(int i=0;i<st.size()/2;i++){
+            p=p->next;
         }
-        return head3;
+        return p;
     }
 };
