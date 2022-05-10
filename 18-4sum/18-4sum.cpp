@@ -7,7 +7,7 @@ public:
             return res;
         sort(nums.begin(),nums.end());
         for(int i=0;i<len-2;i++){
-            for(int j=i+1;j<len;j++){
+            for(int j=i+1;j<len-2;j++){
                 int tar=target-nums[i]-nums[j];
                 int k=j+1, l=len-1;
                 while(k<l){
