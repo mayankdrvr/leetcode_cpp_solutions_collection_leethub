@@ -1,39 +1,76 @@
 class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
-        int len=nums.size();
         vector<vector<int>> res;
-        if(len<=3)
+        
+        if(nums.empty())
             return res;
+        
+        int n = nums.size();
+        
+        // Approach requires sorting and 2-pointer approach
+        
+        // Step1 -> sorting
         sort(nums.begin(),nums.end());
-        for(int i=0;i<len-2;i++){
-            for(int j=i+1;j<len-2;j++){
-                int tar=target-nums[i]-nums[j];
-                int k=j+1, l=len-1;
-                while(k<l){
-                    if(nums[k]+nums[l]<tar)
-                        k++;
-                    else if(nums[k]+nums[l]>tar)
-                        l--;
-                    else{
-                        vector<int> q(4,0);
-                        q[0]=nums[i];
-                        q[1]=nums[j];
-                        q[2]=nums[k];
-                        q[3]=nums[l];
-                        res.push_back(q);
-                        while(k<l && nums[k]==q[2])
-                            k++;
-                        while(k<l && nums[l]==q[3])
-                            l--;
-                    } 
+        
+        
+        // Step2 -> 2-pointer 
+        for(int i=0; i<n; i++)
+        {
+            long long int target3 = target - nums[i];
+            
+            for(int j=i+1; j<n; j++)
+            {
+                long long int target2 = target3 - nums[j];
+                
+                int front = j+1;
+                int back = n-1;
+                
+                while(front<back)
+                {
+                    // remaining elements to be found for quad sum
+                    int two_sum = nums[front] + nums[back];
+                    
+                    if(two_sum < target2)
+                        front++;
+                    else if(two_sum > target2)
+                        back--;
+                    
+                    else
+                    {
+                        // if two_sum == target2
+                        vector<int> quad(4,0);
+                        // quad.push_back(nums[i]);
+                        // quad.push_back(nums[j]);
+                        // quad.push_back(nums[front]);
+                        // quad.push_back(nums[back]);
+                        quad[0] = nums[i];
+                        quad[1] = nums[j];
+                        quad[2] = nums[front];
+                        quad[3] = nums[back];
+                        
+                        
+                        res.push_back(quad);
+                        
+                        // Processing the duplicates of number 3
+                        while(front < back && nums[front] == quad[2]) 
+                            front++;
+                        
+                        // Processing the duplicates of number 4
+                        while(front < back && nums[back] == quad[3]) 
+                            back--;
+                    }
+                    
                 }
-                while(j+1<len && nums[j]==nums[j+1])
-                            j++;
+                // Processing the duplicates of number 2
+                    while(j + 1 < n && nums[j + 1] == nums[j]) 
+                        j++;
             }
-            while(i+1<len && nums[i]==nums[i+1])
-                            i++;
+            // Processing the duplicates of number 2
+                    while(i + 1 < n && nums[i + 1] == nums[i]) 
+                        i++;
         }
+        
         return res;
     }
 };
