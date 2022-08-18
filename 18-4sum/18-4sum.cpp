@@ -15,7 +15,7 @@ public:
         
         
         // Step2 -> 2-pointer 
-        for(int i=0; i<n; i++)
+        for(int i=0; i<n-2; i++)
         {
             long long int target3 = target - nums[i];
             
